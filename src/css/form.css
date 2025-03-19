@@ -5,7 +5,7 @@ input {
   height: 40px;
 }
 
-button {
+#submit {
   border-radius: 8px;
   padding: 8px 16px;
   width: 91px;
@@ -18,8 +18,20 @@ button {
   letter-spacing: 0.04em;
   color: #fff;
 }
-button:hover {
+#submit:hover {
   background: #6c8cff;
+}
+#load-more {
+  margin: 0 auto;
+  margin-top: 30px;
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 125px;
+  height: 40px;
+  background: #808880;
+}
+#load-more:hover {
+  background: #fff;
 }
 form {
   display: flex;

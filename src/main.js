@@ -1,4 +1,4 @@
-import { fetchImages } from './js/pixabay-api.js';
+import { fetchImages, resetPage } from './js/pixabay-api.js';
 import {
   renderImg,
   showLoader,
@@ -8,12 +8,15 @@ import {
 import iziToast from 'izitoast';
 
 const form = document.querySelector('.form');
+const loadMoreButton = document.querySelector('#load-more');
+
 form.addEventListener('submit', async event => {
   event.preventDefault();
 
   const searchQuery = event.target['search-text'].value.trim();
   const gallery = document.querySelector('.gallery');
   gallery.innerHTML = '';
+
   if (searchQuery === '') {
     iziToast.error({
       title: 'Invalid input',
@@ -22,6 +25,9 @@ form.addEventListener('submit', async event => {
     });
     return;
   }
+
+  resetPage();
+  loadMoreButton.style.display = 'none';
 
   showLoader();
 
@@ -35,6 +41,7 @@ form.addEventListener('submit', async event => {
       });
     } else {
       renderImg(images);
+      loadMoreButton.style.display = 'block';
     }
   } catch (error) {
     console.error('Error fetching images:', error);

@@ -2,6 +2,7 @@ import iziToast from 'izitoast';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import 'izitoast/dist/css/iziToast.min.css';
+import { fetchImages } from './pixabay-api';
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'data-description',
@@ -11,13 +12,6 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 export const renderImg = images => {
   const gallery = document.querySelector('.gallery');
-  gallery.innerHTML = '';
-
-  showLoader();
-
-  if (images.length === 0) {
-    return;
-  }
 
   images.forEach(image => {
     const galleryItem = document.createElement('li');
@@ -51,7 +45,6 @@ export const renderImg = images => {
   });
 
   lightbox.refresh();
-  hideLoader();
 };
 
 export const showLoader = () => {
@@ -72,3 +65,15 @@ export const errorMessage = () => {
     position: 'topRight',
   });
 };
+
+export const loadMoreButton = document.querySelector('#load-more');
+
+loadMoreButton.addEventListener('click', async () => {
+  const searchQuery = document.querySelector('.form input').value.trim();
+  const images = await fetchImages(searchQuery);
+  renderImg(images);
+
+  if (images.length < 15) {
+    loadMoreButton.style.display = 'none';
+  }
+});
