@@ -25,24 +25,21 @@ form.addEventListener('submit', async event => {
 
   showLoader();
 
-  fetchImages(searchQuery)
-    .then(images => {
-      console.log('Received images:', images);
-      if (images.length === 0) {
-        iziToast.error({
-          title: 'No results',
-          message: 'Sorry, no images found. Please try another search.',
-          position: 'topRight',
-        });
-      } else {
-        renderImg(images);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-      errorMessage();
-    })
-    .finally(() => {
-      hideLoader();
-    });
+  try {
+    const images = await fetchImages(searchQuery);
+    if (images.length === 0) {
+      iziToast.error({
+        title: 'No results',
+        message: 'Sorry, no images found. Please try another search.',
+        position: 'topRight',
+      });
+    } else {
+      renderImg(images);
+    }
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    errorMessage();
+  } finally {
+    hideLoader();
+  }
 });
