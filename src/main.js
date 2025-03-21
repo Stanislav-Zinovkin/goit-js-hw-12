@@ -9,12 +9,26 @@ import iziToast from 'izitoast';
 
 const form = document.querySelector('.form');
 const loadMoreButton = document.querySelector('#load-more');
+const gallery = document.querySelector('.gallery');
+
+let totalHits = 0;
+
+const scroll = () => {
+  const galleryItem = gallery.querySelector('.gallery-item');
+  if (galleryItem) {
+    const cardHeight = galleryItem.getBoundingClientRect().height;
+    window.scrollBy({
+      top: 2 * cardHeight,
+      behavior: 'smooth',
+    });
+  }
+};
 
 form.addEventListener('submit', async event => {
   event.preventDefault();
 
   const searchQuery = event.target['search-text'].value.trim();
-  const gallery = document.querySelector('.gallery');
+
   gallery.innerHTML = '';
 
   if (searchQuery === '') {
@@ -41,7 +55,19 @@ form.addEventListener('submit', async event => {
       });
     } else {
       renderImg(images);
-      loadMoreButton.style.display = 'block';
+      totalHits = images.totalHits;
+
+      if (totalHits <= 15) {
+        loadMoreButton.style.display = 'none';
+        iziToast.info({
+          title: 'End of results',
+          message: "We're sorry, but you've reached the end of search results.",
+          position: 'topRight',
+        });
+      } else {
+        loadMoreButton.style.display = 'block';
+      }
+      scroll();
     }
   } catch (error) {
     console.error('Error fetching images:', error);
@@ -49,4 +75,21 @@ form.addEventListener('submit', async event => {
   } finally {
     hideLoader();
   }
+});
+
+loadMoreButton.addEventListener('click', async () => {
+  const searchQuery = document.querySelector('.form input').value.trim();
+  const images = await fetchImages(searchQuery);
+  renderImg(images);
+
+  if (images.length < 15) {
+    loadMoreButton.style.display = 'none';
+
+    iziToast.info({
+      title: 'End of results',
+      message: "We're sorry, but you've reached the end of search results.",
+      position: 'topRight',
+    });
+  }
+  scroll();
 });

@@ -77,7 +77,8 @@ form {
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 24px;
+  column-gap: 24px;
+  row-gap: 16px;
   margin-top: 32px;
 }
 .gallery-item {

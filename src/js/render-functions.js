@@ -65,15 +65,3 @@ export const errorMessage = () => {
     position: 'topRight',
   });
 };
-
-export const loadMoreButton = document.querySelector('#load-more');
-
-loadMoreButton.addEventListener('click', async () => {
-  const searchQuery = document.querySelector('.form input').value.trim();
-  const images = await fetchImages(searchQuery);
-  renderImg(images);
-
-  if (images.length < 15) {
-    loadMoreButton.style.display = 'none';
-  }
-});
