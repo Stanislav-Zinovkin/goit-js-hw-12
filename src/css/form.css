@@ -39,12 +39,10 @@ form {
   justify-content: center;
   gap: 8px;
 }
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+
 .loader {
+  display: flex;
+  align-self: center;
   position: relative;
   width: 30px;
   height: 30px;
