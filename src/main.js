@@ -10,13 +10,12 @@ import iziToast from 'izitoast';
 const form = document.querySelector('.form');
 const loadMoreButton = document.querySelector('#load-more');
 const gallery = document.querySelector('.gallery');
-
 let totalHits = 0;
 
 const scroll = () => {
-  const galleryItem = gallery.querySelector('.gallery-item');
-  if (galleryItem) {
-    const cardHeight = galleryItem.getBoundingClientRect().height;
+  const galleryItems = gallery.querySelectorAll('.gallery-item');
+  if (galleryItems.length > 0) {
+    const cardHeight = galleryItems[0].getBoundingClientRect().height;
     window.scrollBy({
       top: 2 * cardHeight,
       behavior: 'smooth',
