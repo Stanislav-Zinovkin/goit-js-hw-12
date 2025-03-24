@@ -115,3 +115,7 @@ form {
   letter-spacing: 0.04em;
   color: #2e2f42;
 }
+img {
+  width: 360px;
+  height: 200px;
+}
